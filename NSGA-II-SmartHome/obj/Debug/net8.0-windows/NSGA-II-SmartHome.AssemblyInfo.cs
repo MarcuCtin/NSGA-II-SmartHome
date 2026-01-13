@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("NSGA-II-SmartHome")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+689f691786dc0e894697d5390ce3257e945bf916")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c83e6d23bec797268715c351f660456a777e39a5")]
 [assembly: System.Reflection.AssemblyProductAttribute("NSGA-II-SmartHome")]
 [assembly: System.Reflection.AssemblyTitleAttribute("NSGA-II-SmartHome")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -120,7 +120,9 @@ namespace NSGA_II_SmartHome.Algorithm
                     }
                 }
 
-                discomfort += Math.Abs(start - appliance.PreferredStartHour);
+                int diff = Math.Abs(start - appliance.PreferredStartHour);
+                int circularDiff = Math.Min(diff, 24 - diff);
+                discomfort += circularDiff;
             }
 
             

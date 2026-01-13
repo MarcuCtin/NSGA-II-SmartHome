@@ -1,7 +1,8 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -108,6 +109,9 @@ namespace NSGA_II_SmartHome.UI
             grid.Columns.Add("Cost", "Cost");
             grid.Columns.Add("Discomfort", "Discomfort");
             grid.Columns.Add("Starts", "Start Hours");
+
+            grid.CellClick += FrontGrid_CellClick;
+
             return grid;
         }
 
@@ -205,7 +209,19 @@ namespace NSGA_II_SmartHome.UI
             foreach (var individual in front.Take(20))
             {
                 var starts = string.Join(", ", individual.StartTimes.Select(h => $"{h:00}:00"));
-                _frontGrid.Rows.Add(individual.Cost, individual.Discomfort, starts);
+                int rowIndex = _frontGrid.Rows.Add(individual.Cost, individual.Discomfort, starts);
+                _frontGrid.Rows[rowIndex].Tag = individual;
+            }
+        }
+
+        private void FrontGrid_CellClick(object? sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0) return;
+
+            if (_frontGrid.Rows[e.RowIndex].Tag is Individual individual)
+            {
+                string report = GenerateAsciiSchedule(individual);
+                ShowReportDialog("Vizualizare Detaliată", report);
             }
         }
 
@@ -335,13 +351,91 @@ namespace NSGA_II_SmartHome.UI
 
             if (closest != null && bestDistance <= 225)
             {
-                var starts = string.Join(", ", closest.StartTimes.Select(h => $"{h:00}:00"));
-                MessageBox.Show(
-                    this,
-                    $"Cost: {closest.Cost}\nDiscomfort: {closest.Discomfort}\nStart hours: {starts}",
-                    "Solution details",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information);
+                string report = GenerateAsciiSchedule(closest);
+                ShowReportDialog("Detalii Soluție", report);
+            }
+        }
+
+        private string GenerateAsciiSchedule(Individual individual)
+        {
+            var sb = new StringBuilder();
+
+            int nameWidth = 12;
+            string separator = " [";
+            string indent = new string(' ', nameWidth + separator.Length);
+
+            sb.AppendLine("PLANIFICARE ORARĂ (00:00 - 23:00)");
+            sb.AppendLine(new string('=', 45));
+
+            sb.Append(indent);
+            sb.AppendLine("00 03 06 09 12 15 18 21 ");
+
+            sb.Append(indent);
+            sb.AppendLine("|  |  |  |  |  |  |  |  ");
+
+            for (int i = 0; i < _scenario.Appliances.Count; i++)
+            {
+                var app = _scenario.Appliances[i];
+                var start = individual.StartTimes[i];
+
+                char[] timeline = new char[24];
+                for (int k = 0; k < 24; k++) timeline[k] = '·';
+
+                for (int h = 0; h < app.DurationHours; h++)
+                {
+                    int activeHour = (start + h) % 24;
+                    timeline[activeHour] = '█';
+                }
+
+                string name = app.Name.Length > nameWidth
+                    ? app.Name.Substring(0, nameWidth)
+                    : app.Name.PadRight(nameWidth);
+
+                sb.AppendLine($"{name}{separator}{new string(timeline)}]");
+            }
+
+            sb.AppendLine(new string('-', 45));
+            sb.AppendLine($"Cost Total:  {individual.Cost,6} RON");
+            sb.AppendLine($"Disconfort:  {individual.Discomfort,6} ore");
+
+            return sb.ToString();
+        }
+
+        private void ShowReportDialog(string title, string content)
+        {
+            using (var form = new Form())
+            {
+                form.Text = title;
+                form.Size = new Size(500, 400);
+                form.StartPosition = FormStartPosition.CenterParent;
+                form.MinimizeBox = false;
+                form.MaximizeBox = false;
+                form.FormBorderStyle = FormBorderStyle.FixedDialog;
+
+                var textBox = new TextBox
+                {
+                    Multiline = true,
+                    ReadOnly = true,
+                    Dock = DockStyle.Fill,
+                    ScrollBars = ScrollBars.Vertical,
+                    Text = content,
+                    Font = new Font("Consolas", 10, FontStyle.Regular),
+                    BackColor = Color.White,
+                    ForeColor = Color.Black,
+                    BorderStyle = BorderStyle.None
+                };
+
+                textBox.Select(0, 0);
+                form.Controls.Add(textBox);
+
+                var btnPanel = new Panel { Dock = DockStyle.Bottom, Height = 40 };
+                var btnOk = new Button { Text = "OK", DialogResult = DialogResult.OK, Left = 400, Top = 8 };
+                btnOk.Click += (s, e) => form.Close();
+                btnPanel.Controls.Add(btnOk);
+                form.Controls.Add(btnPanel);
+                form.AcceptButton = btnOk;
+
+                form.ShowDialog(this);
             }
         }
     }

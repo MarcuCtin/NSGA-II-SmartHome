@@ -27,3 +27,5 @@ D:\NSGA-II-SmartHome\NSGA-II-SmartHome\obj\Debug\net8.0-windows\refint\NSGA-II-S
 D:\NSGA-II-SmartHome\NSGA-II-SmartHome\obj\Debug\net8.0-windows\NSGA-II-SmartHome.pdb
 D:\NSGA-II-SmartHome\NSGA-II-SmartHome\obj\Debug\net8.0-windows\NSGA-II-SmartHome.genruntimeconfig.cache
 D:\NSGA-II-SmartHome\NSGA-II-SmartHome\obj\Debug\net8.0-windows\ref\NSGA-II-SmartHome.dll
+D:\NSGA-II-SmartHome\NSGA-II-SmartHome\obj\Debug\net8.0-windows\NSGA_II_SmartHome.UI.MainForm.resources
+D:\NSGA-II-SmartHome\NSGA-II-SmartHome\obj\Debug\net8.0-windows\NSGA-II-SmartHome.csproj.GenerateResource.cache
