@@ -1,40 +1,46 @@
 # NSGA-II Smart Home Scheduler
 
-Planificator pentru electrocasnice de tip smart-home, construit cu NSGA-II pentru a echilibra costul energiei și disconfortul utilizatorului. UI Windows Forms afișează live frontul Pareto și permite inspecția soluțiilor candidate.
+Planificator pentru electrocasnice de tip smart-home, construit cu NSGA-II pentru a echilibra costul energiei și disconfortul utilizatorului. Aplicația Windows Forms oferă control interactiv asupra simulării și vizualizare în timp real a frontului Pareto.
 
 ## Funcționalități
-- Implementare NSGA-II cu elitism, sortare non-dominată, distanță de aglomerare, selecție prin turneu binar, crossover single-point și mutație prin resetare aleatorie.
-- Scenariu configurabil: electrocasnice cu durată, putere și oră preferată; tarif orar pe 24h.
-- Scatter live (cost vs disconfort) desenat pe formular; punctele Pareto sunt evidențiate și clicabile.
-- Grid cu primele soluții Pareto și orele lor de start.
+- **Algoritm Evolutiv:** Implementare NSGA-II (Non-dominated Sorting Genetic Algorithm II) cu elitism și menținerea diversității.
+- **Control Execuție:** Interfață cu butoane **Start**, **Pauză/Reluare** și **Stop**.
+- **Vizualizare Live:**
+  - Scatter plot dinamic: Cost (X) vs Disconfort (Y).
+  - Coduri de culoare: Populație (Gri), Front Pareto (Roșu), Selecție (Albastru).
+- **Interacțiune & Export:**
+  - **Click pe grafic/tabel:** Selectează o soluție și afișează detalii.
+  - **Export PNG:** Salvează graficul curent ca imagine.
+  - **Export CSV:** Salvează detaliile soluției selectate (orar, costuri per aparat, tarife).
+- **Monitorizare:** Status bar cu progres (ProgressBar) și indicatori live pentru cel mai bun cost și cel mai mic disconfort.
 
 ## Logică de bază
-- Cromozom: `int[] StartTimes` (câte un gene per aparat, oră 0–23).
-- Obiective per individ:
-  - **Cost:** sumă `putere_kW * tarif[ora]` pe durata fiecărui aparat (ore mod 24).
-  - **Disconfort:** sumă `|ora_programată - ora_preferată|`.
-- Parametri NSGA-II (implicit): populație 50, generații 100, crossover 0.9, mutație 0.05.
-- Fișiere relevante:
-  - Modele: [NSGA-II-SmartHome/Core/Models.cs](NSGA-II-SmartHome/Core/Models.cs)
-  - Motor NSGA-II: [NSGA-II-SmartHome/Algorithm/NSGAIIEngine.cs](NSGA-II-SmartHome/Algorithm/NSGAIIEngine.cs)
-  - UI: [NSGA-II-SmartHome/UI/MainForm.cs](NSGA-II-SmartHome/UI/MainForm.cs)
-  - Intrare: [NSGA-II-SmartHome/Program.cs](NSGA-II-SmartHome/Program.cs)
+- **Cromozom:** `int[] StartTimes` (vector de ore de start 0–23, câte una per aparat).
+- **Obiective:**
+  1. **Minimizare Cost:** $\sum (Putere \times Tarif_{oră})$
+  2. **Minimizare Disconfort:** $\sum |Ora_{programată} - Ora_{preferată}|$
+- **Parametri NSGA-II:** Populație 50, Generații 100, Crossover 0.9, Mutație 0.05.
 
-## Scenariu implicit (demo)
-- Electrocasnice: Washer (2h, 1.2 kW, preferă 18), Dryer (1h, 1.0 kW, 18), EV Charger (4h, 7.0 kW, 18), Dishwasher (2h, 1.4 kW, 20), Boiler (3h, 2.0 kW, 7).
-- Tarife: 0.3 RON/kWh pentru orele 00–05; 0.9 RON/kWh în rest.
-- UI: populația în gri, frontul Pareto în roșu; clic pe punct roșu pentru detalii și orele de start.
+## Structură Proiect
+- `Core/Models.cs`: Definiții pentru Aparat, Tarif, Scenariu, Individ.
+- `Algorithm/NSGAIIEngine.cs`: Motorul algoritmului (include logica de pauză și sortare nedomintată).
+- `UI/MainForm.cs`: Interfața grafică, desenarea custom a graficului și gestionarea stărilor.
+- `Program.cs`: Entry point (configurat cu `[STAThread]` pentru suport dialoguri de salvare).
 
-## Build și rulare
-- Necesită .NET 8 SDK pe Windows (WinForms target `net8.0-windows`).
-- Build: `dotnet build NSGA-II-SmartHome.sln`
-- Run (Windows): `dotnet run --project NSGA-II-SmartHome/NSGA-II-SmartHome.csproj`
-- Pe macOS/Linux se poate compila, dar UI WinForms necesită Windows pentru afișare.
+## Scenariu Demo
+- **Electrocasnice:** Washer (2h, 18:00), Dryer (1h, 18:00), EV Charger (4h, 18:00), Dishwasher (2h, 20:00), Boiler (3h, 07:00).
+- **Tarife:** Diferențiate (0.3 RON noaptea 00-05 / 0.9 RON ziua).
+- **Comportament:** Algoritmul va căuta compromisuri între a rula noaptea (ieftin, dar disconfort mare) și a rula seara (scump, dar comod).
 
-## Cum modifici
-- Ajustează electrocasnicele sau tarifele în `BuildDefaultScenario()` din [NSGA-II-SmartHome/UI/MainForm.cs](NSGA-II-SmartHome/UI/MainForm.cs).
-- Tunează parametrii NSGA-II prin `NSGAIIParameters` la construirea `NSGAIIEngine`.
+## Build și Rulare
+1. Necesită **.NET 8 SDK**.
+2. Deschide soluția în Visual Studio 2022+ sau VS Code.
+3. Build: `dotnet build`
+4. Run: `dotnet run --project NSGA-II-SmartHome`
 
-## Note
-- Randare custom pe panel pentru scatter; nu sunt dependențe NuGet suplimentare față de framework.
-- UI rămâne responsiv: motorul rulează pe task de fundal și raportează progresul către formular.
+## Instrucțiuni de Utilizare
+1. Apasă **Start** pentru a lansa optimizarea.
+2. Folosește **Pause** dacă vrei să analizezi o generație intermediară.
+3. Dă **Click** pe un punct roșu (Pareto) din grafic pentru a vedea orarul propus.
+4. Apasă **Export Selection (CSV)** pentru a salva datele soluției alese.
+5. Apasă **Export Graph (PNG)** pentru a salva imaginea graficului.
