@@ -16,7 +16,6 @@ namespace NSGA_II_SmartHome.Algorithm
         private readonly NSGAIIParameters _parameters;
         private readonly Random _random;
 
-        // Eveniment pentru Pauz? (Set = ruleaz?, Reset = pauz?)
         private readonly ManualResetEventSlim _pauseEvent = new ManualResetEventSlim(true);
 
         public NSGAIIEngine(Scenario scenario, NSGAIIParameters? parameters = null, int? seed = null)
@@ -26,13 +25,11 @@ namespace NSGA_II_SmartHome.Algorithm
             _random = seed.HasValue ? new Random(seed.Value) : new Random();
         }
 
-        // Metode pentru control extern
         public void Pause() => _pauseEvent.Reset();
         public void Resume() => _pauseEvent.Set();
 
         public IReadOnlyList<Individual> Run(IProgress<GenerationSnapshot>? progress = null, CancellationToken cancellationToken = default)
         {
-            // Ne asigur?m c? nu este în pauz? la startul unei noi rul?ri
             _pauseEvent.Set();
 
             var population = InitializePopulation();
@@ -42,15 +39,10 @@ namespace NSGA_II_SmartHome.Algorithm
 
             for (var generation = 0; generation < _parameters.Generations; generation++)
             {
-                // 1. Verific?m dac? s-a cerut STOP
                 cancellationToken.ThrowIfCancellationRequested();
 
-                // 2. Verific?m dac? s-a cerut PAUZ? (a?teapt? aici dac? e cazul)
-                // Dac? token-ul de anulare vine în timp ce e în pauz?, va arunca excep?ie ?i va opri totul corect.
                 _pauseEvent.Wait(cancellationToken);
 
-                // 3. [IMPORTANT] Întârziere artificial? pentru a putea vedea progresul ?i a folosi butoanele
-                // Po?i ajusta valoarea (ex: 20ms = foarte rapid, 100ms = lent)
                 Thread.Sleep(50);
 
                 var offspring = CreateOffspring(population);
