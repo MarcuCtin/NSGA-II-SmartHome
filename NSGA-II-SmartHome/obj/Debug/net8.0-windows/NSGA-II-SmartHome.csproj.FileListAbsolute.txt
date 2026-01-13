@@ -1,0 +1,14 @@
+/Users/mac/RiderProjects/NSGA-II-SmartHome/NSGA-II-SmartHome/obj/Debug/net8.0-windows/NSGA-II-SmartHome.GeneratedMSBuildEditorConfig.editorconfig
+/Users/mac/RiderProjects/NSGA-II-SmartHome/NSGA-II-SmartHome/obj/Debug/net8.0-windows/NSGA-II-SmartHome.AssemblyInfoInputs.cache
+/Users/mac/RiderProjects/NSGA-II-SmartHome/NSGA-II-SmartHome/obj/Debug/net8.0-windows/NSGA-II-SmartHome.AssemblyInfo.cs
+/Users/mac/RiderProjects/NSGA-II-SmartHome/NSGA-II-SmartHome/obj/Debug/net8.0-windows/NSGA-II-SmartHome.csproj.CoreCompileInputs.cache
+/Users/mac/RiderProjects/NSGA-II-SmartHome/NSGA-II-SmartHome/bin/Debug/net8.0-windows/NSGA-II-SmartHome
+/Users/mac/RiderProjects/NSGA-II-SmartHome/NSGA-II-SmartHome/bin/Debug/net8.0-windows/NSGA-II-SmartHome.deps.json
+/Users/mac/RiderProjects/NSGA-II-SmartHome/NSGA-II-SmartHome/bin/Debug/net8.0-windows/NSGA-II-SmartHome.runtimeconfig.json
+/Users/mac/RiderProjects/NSGA-II-SmartHome/NSGA-II-SmartHome/bin/Debug/net8.0-windows/NSGA-II-SmartHome.dll
+/Users/mac/RiderProjects/NSGA-II-SmartHome/NSGA-II-SmartHome/bin/Debug/net8.0-windows/NSGA-II-SmartHome.pdb
+/Users/mac/RiderProjects/NSGA-II-SmartHome/NSGA-II-SmartHome/obj/Debug/net8.0-windows/NSGA-II-SmartHome.dll
+/Users/mac/RiderProjects/NSGA-II-SmartHome/NSGA-II-SmartHome/obj/Debug/net8.0-windows/refint/NSGA-II-SmartHome.dll
+/Users/mac/RiderProjects/NSGA-II-SmartHome/NSGA-II-SmartHome/obj/Debug/net8.0-windows/NSGA-II-SmartHome.pdb
+/Users/mac/RiderProjects/NSGA-II-SmartHome/NSGA-II-SmartHome/obj/Debug/net8.0-windows/NSGA-II-SmartHome.genruntimeconfig.cache
+/Users/mac/RiderProjects/NSGA-II-SmartHome/NSGA-II-SmartHome/obj/Debug/net8.0-windows/ref/NSGA-II-SmartHome.dll
