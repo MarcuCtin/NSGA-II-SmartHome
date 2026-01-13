@@ -8,24 +8,31 @@
     "net8.0-windows7.0": []
   },
   "packageFolders": {
-    "/Users/mac/.nuget/packages/": {}
+    "C:\\Users\\munte\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/mac/RiderProjects/NSGA-II-SmartHome/NSGA-II-SmartHome/NSGA-II-SmartHome.csproj",
+      "projectUniqueName": "D:\\NSGA-II-SmartHome\\NSGA-II-SmartHome\\NSGA-II-SmartHome.csproj",
       "projectName": "NSGA-II-SmartHome",
-      "projectPath": "/Users/mac/RiderProjects/NSGA-II-SmartHome/NSGA-II-SmartHome/NSGA-II-SmartHome.csproj",
-      "packagesPath": "/Users/mac/.nuget/packages/",
-      "outputPath": "/Users/mac/RiderProjects/NSGA-II-SmartHome/NSGA-II-SmartHome/obj/",
+      "projectPath": "D:\\NSGA-II-SmartHome\\NSGA-II-SmartHome\\NSGA-II-SmartHome.csproj",
+      "packagesPath": "C:\\Users\\munte\\.nuget\\packages\\",
+      "outputPath": "D:\\NSGA-II-SmartHome\\NSGA-II-SmartHome\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "/Users/mac/.nuget/NuGet/NuGet.Config"
+        "C:\\Users\\munte\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net8.0-windows"
       ],
       "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -42,8 +49,9 @@
       "restoreAuditProperties": {
         "enableAudit": "true",
         "auditLevel": "low",
-        "auditMode": "direct"
-      }
+        "auditMode": "all"
+      },
+      "SdkAnalysisLevel": "9.0.100"
     },
     "frameworks": {
       "net8.0-windows7.0": {
@@ -59,12 +67,6 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
-        "downloadDependencies": [
-          {
-            "name": "Microsoft.WindowsDesktop.App.Ref",
-            "version": "[8.0.17, 8.0.17]"
-          }
-        ],
         "frameworkReferences": {
           "Microsoft.NETCore.App": {
             "privateAssets": "all"
@@ -73,7 +75,7 @@
             "privateAssets": "none"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.411/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.100/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

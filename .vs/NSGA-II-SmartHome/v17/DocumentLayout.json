@@ -1,0 +1,54 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\NSGA-II-SmartHome\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{B948A3CB-8F03-466A-ACAE-1D90BD9FB310}|NSGA-II-SmartHome\\NSGA-II-SmartHome.csproj|d:\\nsga-ii-smarthome\\nsga-ii-smarthome\\algorithm\\nsgaiiengine.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B948A3CB-8F03-466A-ACAE-1D90BD9FB310}|NSGA-II-SmartHome\\NSGA-II-SmartHome.csproj|solutionrelative:nsga-ii-smarthome\\algorithm\\nsgaiiengine.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B948A3CB-8F03-466A-ACAE-1D90BD9FB310}|NSGA-II-SmartHome\\NSGA-II-SmartHome.csproj|d:\\nsga-ii-smarthome\\nsga-ii-smarthome\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B948A3CB-8F03-466A-ACAE-1D90BD9FB310}|NSGA-II-SmartHome\\NSGA-II-SmartHome.csproj|solutionrelative:nsga-ii-smarthome\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "NSGAIIEngine.cs",
+              "DocumentMoniker": "D:\\NSGA-II-SmartHome\\NSGA-II-SmartHome\\Algorithm\\NSGAIIEngine.cs",
+              "RelativeDocumentMoniker": "NSGA-II-SmartHome\\Algorithm\\NSGAIIEngine.cs",
+              "ToolTip": "D:\\NSGA-II-SmartHome\\NSGA-II-SmartHome\\Algorithm\\NSGAIIEngine.cs",
+              "RelativeToolTip": "NSGA-II-SmartHome\\Algorithm\\NSGAIIEngine.cs",
+              "ViewState": "AgIAAGAAAAAAAAAAAAAwwHYAAAAqAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-13T15:38:42.417Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Program.cs",
+              "DocumentMoniker": "D:\\NSGA-II-SmartHome\\NSGA-II-SmartHome\\Program.cs",
+              "RelativeDocumentMoniker": "NSGA-II-SmartHome\\Program.cs",
+              "ToolTip": "D:\\NSGA-II-SmartHome\\NSGA-II-SmartHome\\Program.cs",
+              "RelativeToolTip": "NSGA-II-SmartHome\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-13T15:30:49.771Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

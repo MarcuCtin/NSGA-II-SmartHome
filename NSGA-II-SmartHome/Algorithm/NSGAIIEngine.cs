@@ -93,19 +93,51 @@ namespace NSGA_II_SmartHome.Algorithm
         {
             double cost = 0;
             double discomfort = 0;
+            double[] hourlyLoad = new double[24];
+
+            int washerIndex = -1;
+            int dryerIndex = -1;
 
             for (var i = 0; i < _scenario.Appliances.Count; i++)
             {
                 var appliance = _scenario.Appliances[i];
+
+                if (appliance.Name.Contains("Washer", StringComparison.OrdinalIgnoreCase)) washerIndex = i;
+                if (appliance.Name.Contains("Dryer", StringComparison.OrdinalIgnoreCase)) dryerIndex = i;
+
                 var start = individual.StartTimes[i];
 
                 for (var h = 0; h < appliance.DurationHours; h++)
                 {
                     var hour = (start + h) % 24;
+
                     cost += appliance.PowerKw * _scenario.Tariffs.RateForHour(hour);
+                    hourlyLoad[hour] += appliance.PowerKw;
+
+                    if (hour >= 0 && hour < 6)
+                    {
+                        discomfort += 0.5;
+                    }
                 }
 
                 discomfort += Math.Abs(start - appliance.PreferredStartHour);
+            }
+
+            
+            if (hourlyLoad.Any(load => load > 9.0))
+            {
+                cost += 10000;      
+                discomfort += 1000; 
+            }
+
+            if (washerIndex != -1 && dryerIndex != -1)
+            {
+                var washerEnd = individual.StartTimes[washerIndex] + _scenario.Appliances[washerIndex].DurationHours;
+
+                if (individual.StartTimes[dryerIndex] < washerEnd)
+                {
+                    discomfort += 50;
+                }
             }
 
             individual.Cost = Math.Round(cost, 3);
