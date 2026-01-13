@@ -3,3 +3,12 @@
 /.idea
 /.github
 /.vscode
+.vs/
+bin/
+obj/
+*.user
+*.suo
+*.dll
+*.exe
+*.pdb
+*.cache
