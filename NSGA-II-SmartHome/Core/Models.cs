@@ -34,6 +34,8 @@ namespace NSGA_II_SmartHome.Core
             _rates = hourlyRates.ToArray();
         }
 
+        public IReadOnlyList<double> Rates => _rates;
+
         public double RateForHour(int hour)
         {
             var h = (hour % 24 + 24) % 24;

@@ -19,6 +19,10 @@ namespace NSGA_II_SmartHome.UI
         private DataGridView _frontGrid = null!;
         private TextBox _scenarioBox = null!;
 
+        private RadioButton _rbDefault = null!;
+        private RadioButton _rbCustom = null!;
+        private Button _btnConfigureScenario = null!;
+
         private Button _btnStart = null!;
         private Button _btnPause = null!;
         private Button _btnStop = null!;
@@ -34,8 +38,10 @@ namespace NSGA_II_SmartHome.UI
         private ToolStripStatusLabel _lblBestDisc = null!;
         private ToolStripStatusLabel _lblState = null!;
 
-        private readonly Scenario _scenario;
-        private readonly NSGAIIEngine _engine;
+        private Scenario _scenario;
+        private readonly Scenario _defaultScenario;
+        private Scenario? _customScenario;
+        private NSGAIIEngine _engine;
         private readonly NSGAIIParameters _parameters;
 
         private IReadOnlyList<Individual> _latestFront = Array.Empty<Individual>();
@@ -52,7 +58,8 @@ namespace NSGA_II_SmartHome.UI
             Height = 820;
             StartPosition = FormStartPosition.CenterScreen;
 
-            _scenario = BuildDefaultScenario();
+            _defaultScenario = BuildDefaultScenario();
+            _scenario = _defaultScenario;
             _parameters = new NSGAIIParameters();
             _engine = new NSGAIIEngine(_scenario, _parameters);
 
@@ -63,6 +70,7 @@ namespace NSGA_II_SmartHome.UI
         {
             _canvas = CreateCanvas();
             _frontGrid = CreateFrontGrid();
+            CreateScenarioSelectors();
             _scenarioBox = CreateScenarioBox();
 
             _btnStart = CreateButton("Start", 740, 20, OnStartClick);
@@ -83,6 +91,7 @@ namespace NSGA_II_SmartHome.UI
 
             Controls.AddRange(new Control[] {
                 _canvas, _frontGrid, _scenarioBox,
+                _rbDefault, _rbCustom, _btnConfigureScenario,
                 _btnStart, _btnPause, _btnStop,
                 _btnExportPng, _btnExportCsv,
                 _statusStrip
@@ -154,24 +163,63 @@ namespace NSGA_II_SmartHome.UI
             return grid;
         }
 
+        private void CreateScenarioSelectors()
+        {
+            _rbDefault = new RadioButton
+            {
+                Text = "Scenariu implicit",
+                Left = 740,
+                Top = 410,
+                AutoSize = true,
+                Checked = true
+            };
+
+            _rbCustom = new RadioButton
+            {
+                Text = "Scenariu personalizat",
+                Left = 740,
+                Top = 435,
+                AutoSize = true
+            };
+
+            _rbDefault.CheckedChanged += OnScenarioSelectionChanged;
+            _rbCustom.CheckedChanged += OnScenarioSelectionChanged;
+
+            _btnConfigureScenario = new Button
+            {
+                Text = "Config. scenariu",
+                Location = new Point(910, 410),
+                Size = new Size(160, 30)
+            };
+            _btnConfigureScenario.Click += OnConfigureScenarioClick;
+        }
+
         private TextBox CreateScenarioBox()
         {
             var box = new TextBox
             {
                 Left = 740,
-                Top = 430,
+                Top = 455,
                 Width = 330,
-                Height = 180,
+                Height = 155,
                 Multiline = true,
                 ReadOnly = true,
                 ScrollBars = ScrollBars.Vertical,
-                Text = DescribeScenario(_scenario)
+                Text = $"Scenariu implicit\r\n{DescribeScenario(_scenario)}"
             };
             return box;
         }
 
         private async void OnStartClick(object? sender, EventArgs e)
         {
+            var chosenScenario = ResolveActiveScenario();
+            if (chosenScenario == null)
+            {
+                return;
+            }
+
+            ResetEngineWithScenario(chosenScenario);
+
             _btnStart.Enabled = false;
             _btnStop.Enabled = true;
             _btnPause.Enabled = true;
@@ -344,6 +392,75 @@ namespace NSGA_II_SmartHome.UI
         private string DescribeScenario(Scenario s) =>
             "Scenario: prioritize 18:00 finishes, cheap night rates (0.3 RON 00-05, 0.9 otherwise)\r\n" +
             "Appliances:\r\n" + string.Join("\r\n", s.Appliances.Select(a => $"- {a.Name}: {a.DurationHours}h, {a.PowerKw}kW, pref {a.PreferredStartHour}:00"));
+
+        private Scenario? ResolveActiveScenario()
+        {
+            if (_rbCustom.Checked)
+            {
+                if (_customScenario == null)
+                {
+                    MessageBox.Show("Definiti si salvati scenariul personalizat inainte de rulare.", "Scenariu lipsa", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return null;
+                }
+
+                return _customScenario;
+            }
+
+            return _defaultScenario;
+        }
+
+        private void ResetEngineWithScenario(Scenario scenario)
+        {
+            _scenario = scenario;
+            _engine = new NSGAIIEngine(_scenario, _parameters);
+            _selectedIndividual = null;
+            _latestFront = Array.Empty<Individual>();
+            _latestPopulation = Array.Empty<Individual>();
+            _btnExportCsv.Enabled = false;
+
+            _progressBar.Value = 0;
+            _lblGen.Text = "Gen: 0";
+            _lblFrontSize.Text = "Pareto: 0";
+            _lblBestCost.Text = "Min Cost: -";
+            _lblBestDisc.Text = "Min Disc: -";
+
+            ApplyScenarioPreview(_scenario, _rbCustom.Checked ? "Scenariu personalizat" : "Scenariu implicit");
+
+            _frontGrid.Rows.Clear();
+            _canvas.Invalidate();
+        }
+
+        private void ApplyScenarioPreview(Scenario scenario, string label)
+        {
+            _scenarioBox.Text = $"{label}\r\n{DescribeScenario(scenario)}";
+        }
+
+        private void OnScenarioSelectionChanged(object? sender, EventArgs e)
+        {
+            if (_rbCustom.Checked && _customScenario != null)
+            {
+                ApplyScenarioPreview(_customScenario, "Scenariu personalizat");
+            }
+            else if (_rbCustom.Checked)
+            {
+                _scenarioBox.Text = "Nu exista scenariu personalizat. Folositi \"Config. scenariu\".";
+            }
+            else
+            {
+                ApplyScenarioPreview(_defaultScenario, "Scenariu implicit");
+            }
+        }
+
+        private void OnConfigureScenarioClick(object? sender, EventArgs e)
+        {
+            using var dlg = new CustomScenarioForm(_customScenario ?? _defaultScenario);
+            if (dlg.ShowDialog(this) == DialogResult.OK && dlg.Result != null)
+            {
+                _customScenario = dlg.Result;
+                _rbCustom.Checked = true;
+                ApplyScenarioPreview(_customScenario, "Scenariu personalizat");
+            }
+        }
 
         private void PopulateGrid(IReadOnlyList<Individual> front)
         {

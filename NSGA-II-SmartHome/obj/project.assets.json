@@ -8,24 +8,19 @@
     "net8.0-windows7.0": []
   },
   "packageFolders": {
-    "C:\\Users\\munte\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "C:\\Users\\mc\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\NSGA-II-SmartHome\\NSGA-II-SmartHome\\NSGA-II-SmartHome.csproj",
+      "projectUniqueName": "Y:\\NSGA-II-SmartHome\\NSGA-II-SmartHome\\NSGA-II-SmartHome.csproj",
       "projectName": "NSGA-II-SmartHome",
-      "projectPath": "D:\\NSGA-II-SmartHome\\NSGA-II-SmartHome\\NSGA-II-SmartHome.csproj",
-      "packagesPath": "C:\\Users\\munte\\.nuget\\packages\\",
-      "outputPath": "D:\\NSGA-II-SmartHome\\NSGA-II-SmartHome\\obj\\",
+      "projectPath": "Y:\\NSGA-II-SmartHome\\NSGA-II-SmartHome\\NSGA-II-SmartHome.csproj",
+      "packagesPath": "C:\\Users\\mc\\.nuget\\packages\\",
+      "outputPath": "Y:\\NSGA-II-SmartHome\\NSGA-II-SmartHome\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-      ],
       "configFilePaths": [
-        "C:\\Users\\munte\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Users\\mc\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -49,9 +44,9 @@
       "restoreAuditProperties": {
         "enableAudit": "true",
         "auditLevel": "low",
-        "auditMode": "all"
+        "auditMode": "direct"
       },
-      "SdkAnalysisLevel": "9.0.100"
+      "SdkAnalysisLevel": "10.0.100"
     },
     "frameworks": {
       "net8.0-windows7.0": {
@@ -75,7 +70,7 @@
             "privateAssets": "none"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.100/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.101/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
